@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    background: #222430;
+    padding: 0;
+}
+
+.description > p {
+    @apply text-foreground py-3;
+}
+
+.description > h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    @apply text-foreground;
+}
+
+.nav-button {
+    @apply text-foreground/90 rounded-md px-6 py-2 ;
+}
+
+.nav-button:hover {
+    @apply bg-white/10;
+}
+
+.nav-button.active {
+    @apply text-foreground;
+}
