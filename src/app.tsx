@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { AllTarotList } from "./components/all-tarot-list";
 import { TarotSpread } from "./components/tarot-spread";
-import { loadTarotDB, useTarotDB } from "./tarot-db";
+import { loadTarotDB } from "./tarot-db";
 
 export const App: React.FC = () => {
     const [activeTab, setActiveTab] = useState("spread");

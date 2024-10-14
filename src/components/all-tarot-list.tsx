@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 import Markdown from "react-markdown";
 import { useTarotDB, Tarot } from "../tarot-db";
 

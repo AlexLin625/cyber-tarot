@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "../assets/flip-card.css";
 import { useTarotDB } from "../tarot-db";
 
@@ -30,9 +30,9 @@ const renderFlippableCard: React.FC<{
             </div>
 
             <p
-                className={
-                    `card-text ${flipped ? " flipped" : ""}`
-                }
+                className={`card-text ${
+                    flipped ? " flipped" : ""
+                }`}
             >
                 {useTarotDB()[props.name].name}
             </p>
@@ -43,9 +43,6 @@ const renderFlippableCard: React.FC<{
 let selected: string[] = [];
 
 export const TarotSpread: React.FC = () => {
-    const [question, setQuestion] = useState("");
-    const [cards, setCards] = useState<string[]>([]);
-
     const renderCards = () => {
         if (selected.length === 0) {
             const deck = Object.keys(useTarotDB());
