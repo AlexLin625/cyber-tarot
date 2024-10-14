@@ -182,11 +182,14 @@ export const TarotSpread: React.FC = () => {
     };
 
     const handleAnalysis = async () => {
+        if (queryedAnalysis) return;
+        
         setQueryedAnalysis(true);
         const data = await queryQwen(
             selected,
             question,
         );
+        
         setAnalysis(data.choices[0].message.content);
         console.log(data);
     };
