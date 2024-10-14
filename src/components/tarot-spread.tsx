@@ -200,7 +200,7 @@ export const TarotSpread: React.FC = () => {
                         <h3 className="text-3xl font-bold self-start py-4">
                             千问占卜
                         </h3>
-                        <Markdown className=".description">
+                        <Markdown className="description">
                             {analysis}
                         </Markdown>
                         <h3 className="text-3xl font-bold self-start py-4">
