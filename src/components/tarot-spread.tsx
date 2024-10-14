@@ -68,11 +68,10 @@ const queryQwen = async (
     secret: string
 ) => {
     const baseUrl =
-        "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions";
+        "https://qwen-tarot-forward.linhongjie625.workers.dev";
 
     const headers = {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${secret}`,
     };
 
     let userMessage = "";
@@ -95,7 +94,6 @@ const queryQwen = async (
     ];
 
     const body = {
-        model: "qwen-long",
         messages: messages,
     };
     const response = await fetch(baseUrl, {
@@ -231,7 +229,7 @@ export const TarotSpread: React.FC = () => {
         return (
             <div className="flex flex-col items-center w-full">
                 <div className="input-container w-[768px] pt-8">
-                    <p>
+                    {/* <p>
                         你的DashScope Secret
                         (用于调用通义千问)
                     </p>
@@ -243,7 +241,7 @@ export const TarotSpread: React.FC = () => {
                                 e.target as HTMLInputElement;
                             setSecret(target.value);
                         }}
-                    />
+                    /> */}
 
                     <p>你想要占卜的问题</p>
                     <input
