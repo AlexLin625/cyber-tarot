@@ -34,7 +34,7 @@ function wordCloud(keywords: string[]) {
     );
 }
 
-function renderTarot(name: string, tarot: Tarot) {
+export function renderTarot(name: string, tarot: Tarot) {
     return (
         <div className="flex flex-row max-w-[768px] items-start py-8">
             <div className="flex flex-col items-start justify-start w-72 shrink-0">

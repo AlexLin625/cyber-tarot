@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "../assets/flip-card.css";
 import { useTarotDB } from "../tarot-db";
 import Markdown from "react-markdown";
+import { renderTarot } from "./all-tarot-list";
 
 let flipCounter: number;
 let setFlipCounter: React.Dispatch<
@@ -199,9 +200,23 @@ export const TarotSpread: React.FC = () => {
         return (
             <div className="flex flex-col items-center justify-center text-foreground py-8 w-[768px]">
                 {analysis ? (
-                    <Markdown className=".description">
-                        {analysis}
-                    </Markdown>
+                    <>
+                        <h3 className="text-3xl font-bold self-start py-4">
+                            千问占卜
+                        </h3>
+                        <Markdown className=".description">
+                            {analysis}
+                        </Markdown>
+                        <h3 className="text-3xl font-bold self-start py-4">
+                            关于你抽到的塔罗牌
+                        </h3>
+                        {selected.map((state) =>
+                            renderTarot(
+                                state.name,
+                                useTarotDB()[state.name]
+                            )
+                        )}
+                    </>
                 ) : (
                     <p className="text-2xl font-thin">
                         千问生成中...
