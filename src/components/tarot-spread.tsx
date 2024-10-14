@@ -63,6 +63,7 @@ export const cardTemplate = (
 
 const queryQwen = async (
     tarots: TarotState[],
+    question: string,
     secret: string
 ) => {
     const baseUrl =
@@ -85,7 +86,10 @@ const queryQwen = async (
         },
         {
             role: "user",
-            content: userMessage,
+            content:
+                userMessage +
+                "\n\n## 用户提出的问题是\n" +
+                question,
         },
     ];
 
@@ -181,7 +185,11 @@ export const TarotSpread: React.FC = () => {
 
     const handleAnalysis = async () => {
         setQueryedAnalysis(true);
-        const data = await queryQwen(selected, secret);
+        const data = await queryQwen(
+            selected,
+            question,
+            secret
+        );
         setAnalysis(data.choices[0].message.content);
         console.log(data);
     };
@@ -191,9 +199,9 @@ export const TarotSpread: React.FC = () => {
         return (
             <div className="flex flex-col items-center justify-center text-foreground py-8 w-[768px]">
                 {analysis ? (
-                        <Markdown className=".description">
-                            {analysis}
-                        </Markdown>
+                    <Markdown className=".description">
+                        {analysis}
+                    </Markdown>
                 ) : (
                     <p className="text-2xl font-thin">
                         千问生成中...
