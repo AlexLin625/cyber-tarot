@@ -25,6 +25,10 @@
     transform: rotateY(180deg);
 }
 
+.card-back.reversed {
+    transform: rotateX(180deg);
+}
+
 .card-inner.flipped {
     transform: rotateY(180deg);
     transition: transform 0.5s;

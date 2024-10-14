@@ -21,7 +21,7 @@ h6 {
 }
 
 .nav-button {
-    @apply text-foreground/90 rounded-md px-6 py-2 ;
+    @apply text-foreground/90 rounded-md px-6 py-2;
 }
 
 .nav-button:hover {
@@ -30,4 +30,23 @@ h6 {
 
 .nav-button.active {
     @apply text-foreground;
+}
+
+input {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: 0;
+}
+
+.input-container > input {
+    @apply bg-white/10 border-none text-foreground/90 p-2 rounded-md w-full my-2 border-blue-700;
+}
+
+.input-container > input:focus {
+    @apply border-yellow-300 bg-white/20;
+}
+
+.input-container > p {
+    @apply text-foreground/90;
 }

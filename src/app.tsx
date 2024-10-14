@@ -45,7 +45,13 @@ export const App: React.FC = () => {
 
     const renderBody = () => {
         if (!isReady) {
-            return <div>Loading...</div>;
+            return (
+                <div className="w-full h-full flex items-center justify-center">
+                    <p className="text-4xl font-thin text-white">
+                        Loading...
+                    </p>
+                </div>
+            );
         }
 
         switch (activeTab) {
