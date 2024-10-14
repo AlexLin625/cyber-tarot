@@ -65,7 +65,6 @@ export const cardTemplate = (
 const queryQwen = async (
     tarots: TarotState[],
     question: string,
-    secret: string
 ) => {
     const baseUrl =
         "https://qwen-tarot-forward.linhongjie625.workers.dev";
@@ -156,7 +155,7 @@ export const TarotSpread: React.FC = () => {
     [flipCounter, setFlipCounter] = useState(0);
 
     const [question, setQuestion] = useState("");
-    const [secret, setSecret] = useState("");
+    // const [secret, setSecret] = useState("");
 
     const [queryedAnalysis, setQueryedAnalysis] =
         useState(false);
@@ -187,7 +186,6 @@ export const TarotSpread: React.FC = () => {
         const data = await queryQwen(
             selected,
             question,
-            secret
         );
         setAnalysis(data.choices[0].message.content);
         console.log(data);
