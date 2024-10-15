@@ -24,7 +24,7 @@ h3,
 h4,
 h5,
 h6 {
-    @apply text-foreground;
+    @apply text-foreground text-2xl font-bold py-3;
 }
 
 .nav-button {

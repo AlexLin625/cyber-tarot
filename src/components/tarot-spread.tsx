@@ -55,11 +55,13 @@ export const tarotDetailedPrompt = `
 
 紧接着，是关于这张卡牌的详细信息。
 
-# 任务
+# 任务和要求
 
-你需要结合总体情况和卡牌的参考解读，给出关于这张卡牌的详细解读。
-
-你的回复应当以介绍卡牌本身开头，你不需要重复总结的内容。
+ - 你需要结合总体情况和卡牌的参考解读，给出关于这张卡牌的详细解读。
+ - 你的回复应当以介绍卡牌本身开头，你不需要重复总结的内容。
+ - 你的回答需要聚焦于当前卡牌的详细解读。
+ - 不要在你的回复中过多提及其他卡牌。
+ - 你的输出应当整理成一个完整而流畅的段落，不需要展示你的推理过程。
 `;
 
 export const cardTemplate = (
@@ -315,6 +317,11 @@ export const TarotSpread: React.FC = () => {
                         <Markdown className="description">
                             {analysis}
                         </Markdown>
+                        {!done && (
+                            <p className="w-full text-center text-2xl py-2">
+                                千问占卜中...
+                            </p>
+                        )}
                         <h3 className="text-3xl font-bold self-start py-4">
                             关于你抽到的塔罗牌
                         </h3>
@@ -328,7 +335,6 @@ export const TarotSpread: React.FC = () => {
                 ) : (
                     ""
                 )}
-
                 {!done && (
                     <p className="w-full text-center text-2xl py-2">
                         千问占卜中...
