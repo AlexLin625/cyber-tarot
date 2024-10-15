@@ -41,6 +41,7 @@ b. 问题 - 解决方案 - 结果
  - 然后，给出一些可能性的推理。
 - 你的输出应当整理成一个完整而流畅的段落，不需要展示你的推理过程。
 - 不要向用户明确展示以上的范式。
+- 输出相对简短的回答，不需要过多的细节。
 
 `;
 
@@ -285,7 +286,7 @@ export const TarotSpread: React.FC = () => {
         const summary = data.choices[0].message.content;
 
         setAnalysis(summary);
-        selected.forEach(async (_, index) => {
+        for (let index = 0; index < 3; index++) {
             let res = await qwenDetailed(
                 selected,
                 index,
@@ -301,7 +302,7 @@ export const TarotSpread: React.FC = () => {
                     ].join("")
                 )
             );
-        });
+        }
         setDone(true);
     };
 
