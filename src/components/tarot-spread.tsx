@@ -258,7 +258,7 @@ export const TarotSpread: React.FC = () => {
 
         setAnalysis(summary);
         selected.forEach(async (_, index) => {
-            const data = await qwenDetailed(
+            let res = await qwenDetailed(
                 selected,
                 index,
                 summary,
@@ -268,7 +268,7 @@ export const TarotSpread: React.FC = () => {
             setAnalysis(
                 analysis +
                     "\n\n" +
-                    data.choices[0].message.content
+                    res.choices[0].message.content
             );
         });
         setDone(true);
