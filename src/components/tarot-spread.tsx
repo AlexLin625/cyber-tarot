@@ -14,7 +14,7 @@ interface TarotState {
     orientation: "upright" | "reversed";
 }
 
-export const systemPrompt = `
+export const summarySystemPrompt = `
 # 角色与能力
 
 你是一个专业的塔罗牌解读师。你的任务是根据用户提供的三张牌的Spread, 解读三张牌的含义，并根据这三张牌的含义，给出一个总体的解读。
@@ -42,6 +42,24 @@ b. 问题 - 解决方案 - 结果
 - 你的输出应当整理成一个完整而流畅的段落，不需要展示你的推理过程。
 - 不要向用户明确展示以上的范式。
 
+`;
+
+export const tarotDetailedPrompt = `
+# 角色与能力
+
+你是一个专业的塔罗牌解读师。你擅长结合牌阵的含义，向用户提供详细的解读。
+
+# 输入
+
+首先，是关于卡牌的信息，包括卡牌的名字和正反位。随后，是用户的问题。
+
+紧接着，是关于这张卡牌的详细信息。
+
+# 任务
+
+你需要结合总体情况和卡牌的参考解读，给出关于这张卡牌的详细解读。
+
+你的回复应当以介绍卡牌本身开头，你不需要重复总结的内容。
 `;
 
 export const cardTemplate = (
@@ -120,7 +138,7 @@ const qwenSummary = async (
     const messages = [
         {
             role: "system",
-            content: systemPrompt,
+            content: tarotDetailedPrompt,
         },
         {
             role: "user",
@@ -146,25 +164,33 @@ const qwenDetailed = async (
     const messages = [
         {
             role: "system",
-            content: systemPrompt,
+            content: summarySystemPrompt,
         },
         {
             role: "user",
             content: `
             ${generateCardSummary(tarots, question)}
 
-            ## 总体解读
-            ${summary}
-
-            ## 卡片${useTarotDB()[currentName].name}的解读
+            ## 卡片${
+                useTarotDB()[currentName].name
+            }的详细解读
             ${
                 useTarotDB()[currentName][
                     tarots[index].orientation
                 ].full
             }
+
+            ## 总体解读
+            ${summary}
             
             ## 任务
-            你需要根据卡片的参考解读，结合用户的问题和上面的情况总结，给出与用户情况相结合的详细解读。
+            你需要根据${
+                useTarotDB()[currentName].name
+            }卡的参考解读，结合用户的问题和上面的情况总结，给出与用户情况相结合的详细解读。你的回答应当以
+            \`\`\`
+            ${useTarotDB()[currentName].name}卡的_位代表...
+            \`\`\`
+            的简单介绍开头
             `,
         },
     ];
@@ -266,9 +292,12 @@ export const TarotSpread: React.FC = () => {
             );
 
             setAnalysis(
-                analysis +
-                    "\n\n" +
-                    res.choices[0].message.content
+                analysis.concat(
+                    [
+                        "\n\n",
+                        res.choices[0].message.content,
+                    ].join("")
+                )
             );
         });
         setDone(true);
@@ -301,7 +330,7 @@ export const TarotSpread: React.FC = () => {
                 )}
 
                 {!done && (
-                    <p className="w-full text-4xl">
+                    <p className="w-full text-center text-2xl py-2">
                         千问占卜中...
                     </p>
                 )}
