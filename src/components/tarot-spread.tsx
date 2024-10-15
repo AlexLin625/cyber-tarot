@@ -67,7 +67,7 @@ const queryQwen = async (
     question: string,
 ) => {
     const baseUrl =
-        "https://qwen-tarot-forward.linhongjie625.workers.dev";
+        "https://qwen-forward-2.linhongjie625.workers.dev";
 
     const headers = {
         "Content-Type": "application/json",
