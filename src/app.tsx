@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { AllTarotList } from "./components/all-tarot-list";
 import { TarotSpread } from "./components/tarot-spread";
 import { loadTarotDB } from "./tarot-db";
+import { About } from "./components/about";
 
 export const App: React.FC = () => {
     const [activeTab, setActiveTab] = useState("spread");
@@ -21,6 +22,10 @@ export const App: React.FC = () => {
         {
             name: "tarot",
             label: "所有塔罗牌",
+        },
+        {
+            name: "about",
+            label: "关于",
         },
     ];
 
@@ -59,6 +64,8 @@ export const App: React.FC = () => {
                 return <TarotSpread />;
             case "tarot":
                 return <AllTarotList />;
+            case "about":
+                return <About />;
         }
     };
 

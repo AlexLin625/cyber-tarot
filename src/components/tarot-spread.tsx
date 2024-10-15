@@ -208,6 +208,7 @@ const renderFlippableCard: React.FC<{
     const [flipped, setFlipped] = useState(false);
 
     const handleClick = () => {
+        if (flipped) return;
         setFlipped(true);
         setFlipCounter(flipCounter + 1);
     };

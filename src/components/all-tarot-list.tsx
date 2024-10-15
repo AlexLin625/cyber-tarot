@@ -43,7 +43,7 @@ export function renderTarot(name: string, tarot: Tarot) {
                     src={`/img/${name}.webp`}
                 />
 
-                <h3 className="text-4xl font-bold pt-4">
+                <h3 className="text-4xl font-bold pt-4 text-foreground">
                     {tarot.name}
                 </h3>
                 <p className="font-thin text-foreground opacity-70">

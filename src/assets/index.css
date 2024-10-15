@@ -19,12 +19,16 @@ body {
 }
 
 .description > h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+.description > h2,
+.description > h3,
+.description > h4,
+.description > h5,
+.description > h6 {
     @apply text-foreground text-2xl font-bold py-3;
+}
+
+code {
+    @apply text-purple-500 px-1 bg-black/20 mx-1 rounded-md;
 }
 
 .nav-button {
