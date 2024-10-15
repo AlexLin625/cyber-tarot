@@ -291,6 +291,7 @@ export const TarotSpread: React.FC = () => {
                 question
             );
 
+            console.log(analysis);
             setAnalysis(
                 analysis.concat(
                     [
@@ -299,6 +300,7 @@ export const TarotSpread: React.FC = () => {
                     ].join("")
                 )
             );
+            console.log(analysis);
         });
         setDone(true);
     };
