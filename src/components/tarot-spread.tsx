@@ -291,16 +291,14 @@ export const TarotSpread: React.FC = () => {
                 question
             );
 
-            console.log(analysis);
-            setAnalysis(
-                analysis.concat(
+            setAnalysis((prevAnalysis) =>
+                prevAnalysis.concat(
                     [
                         "\n\n",
                         res.choices[0].message.content,
                     ].join("")
                 )
             );
-            console.log(analysis);
         });
         setDone(true);
     };
