@@ -45,7 +45,7 @@ b. 问题 - 解决方案 - 结果
 
 `;
 
-export const tarotDetailedPrompt = `
+export const detailedSystemPrompt = `
 # 角色与能力
 
 你是一个专业的塔罗牌解读师。你擅长结合牌阵的含义，向用户提供详细的解读。
@@ -141,7 +141,7 @@ const qwenSummary = async (
     const messages = [
         {
             role: "system",
-            content: tarotDetailedPrompt,
+            content: summarySystemPrompt,
         },
         {
             role: "user",
@@ -167,7 +167,7 @@ const qwenDetailed = async (
     const messages = [
         {
             role: "system",
-            content: summarySystemPrompt,
+            content: detailedSystemPrompt,
         },
         {
             role: "user",
