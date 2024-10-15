@@ -62,7 +62,7 @@ export const cardTemplate = (
     `;
 };
 
-const queryQwen = async (messages) => {
+const queryQwen = async (messages: any) => {
     const baseUrl =
         "https://qwen-forward-2.linhongjie625.workers.dev";
 
@@ -257,7 +257,7 @@ export const TarotSpread: React.FC = () => {
         const summary = data.choices[0].message.content;
 
         setAnalysis(summary);
-        selected.forEach(async (state, index) => {
+        selected.forEach(async (_, index) => {
             const data = await qwenDetailed(
                 selected,
                 index,
