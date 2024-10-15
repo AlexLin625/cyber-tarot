@@ -62,35 +62,13 @@ export const cardTemplate = (
     `;
 };
 
-const queryQwen = async (
-    tarots: TarotState[],
-    question: string,
-) => {
+const queryQwen = async (messages) => {
     const baseUrl =
         "https://qwen-forward-2.linhongjie625.workers.dev";
 
     const headers = {
         "Content-Type": "application/json",
     };
-
-    let userMessage = "";
-    for (let i = 0; i < tarots.length; i++) {
-        userMessage += cardTemplate(tarots[i], i);
-    }
-
-    const messages = [
-        {
-            role: "system",
-            content: systemPrompt,
-        },
-        {
-            role: "user",
-            content:
-                userMessage +
-                "\n\n## 用户提出的问题是\n" +
-                question,
-        },
-    ];
 
     const body = {
         messages: messages,
@@ -101,6 +79,97 @@ const queryQwen = async (
         body: JSON.stringify(body),
     });
     const data = await response.json();
+    return data;
+};
+
+const generateCardSummary = (
+    tarots: TarotState[],
+    question: string
+) => {
+    let userMessage =
+        tarots
+            .map(
+                (tarot, index) =>
+                    `
+         - 第 ${index + 1} 张牌是 ${
+                        tarot.name
+                    }，它的朝向是 ${
+                        tarot.orientation
+                    }。这张牌含义的关键词包括 ${useTarotDB()[
+                        tarot.name
+                    ][tarot.orientation].keywords.join(
+                        ","
+                    )}。
+            `
+            )
+            .join("\n") + "\n";
+
+    return `
+    ## 抽卡结果
+    ${userMessage}
+
+    ## 用户问题
+    <|question|> ${question} <|question|>
+`;
+};
+
+const qwenSummary = async (
+    tarots: TarotState[],
+    question: string
+) => {
+    const messages = [
+        {
+            role: "system",
+            content: systemPrompt,
+        },
+        {
+            role: "user",
+            content: `
+            ${generateCardSummary(tarots, question)}
+            
+            ## 输出要求
+            请根据用户的问题，选择一种范式进行解读，并给出一个总体的解释。
+            `,
+        },
+    ];
+    const data = await queryQwen(messages);
+    return data;
+};
+
+const qwenDetailed = async (
+    tarots: TarotState[],
+    index: number,
+    summary: string,
+    question: string
+) => {
+    const currentName = tarots[index].name;
+    const messages = [
+        {
+            role: "system",
+            content: systemPrompt,
+        },
+        {
+            role: "user",
+            content: `
+            ${generateCardSummary(tarots, question)}
+
+            ## 总体解读
+            ${summary}
+
+            ## 卡片${useTarotDB()[currentName].name}的解读
+            ${
+                useTarotDB()[currentName][
+                    tarots[index].orientation
+                ].full
+            }
+            
+            ## 任务
+            你需要根据卡片的参考解读，结合用户的问题和上面的情况总结，给出与用户情况相结合的详细解读。
+            `,
+        },
+    ];
+
+    const data = await queryQwen(messages);
     return data;
 };
 
@@ -155,11 +224,10 @@ export const TarotSpread: React.FC = () => {
     [flipCounter, setFlipCounter] = useState(0);
 
     const [question, setQuestion] = useState("");
-    // const [secret, setSecret] = useState("");
-
     const [queryedAnalysis, setQueryedAnalysis] =
         useState(false);
     const [analysis, setAnalysis] = useState("");
+    const [done, setDone] = useState(false);
 
     const renderCards = () => {
         if (selected.length === 0) {
@@ -183,15 +251,27 @@ export const TarotSpread: React.FC = () => {
 
     const handleAnalysis = async () => {
         if (queryedAnalysis) return;
-        
+
         setQueryedAnalysis(true);
-        const data = await queryQwen(
-            selected,
-            question,
-        );
-        
-        setAnalysis(data.choices[0].message.content);
-        console.log(data);
+        const data = await qwenSummary(selected, question);
+        const summary = data.choices[0].message.content;
+
+        setAnalysis(summary);
+        selected.forEach(async (state, index) => {
+            const data = await qwenDetailed(
+                selected,
+                index,
+                summary,
+                question
+            );
+
+            setAnalysis(
+                analysis +
+                    "\n\n" +
+                    data.choices[0].message.content
+            );
+        });
+        setDone(true);
     };
 
     const renderResult = () => {
@@ -217,8 +297,12 @@ export const TarotSpread: React.FC = () => {
                         )}
                     </>
                 ) : (
-                    <p className="text-2xl font-thin">
-                        千问生成中...
+                    ""
+                )}
+
+                {!done && (
+                    <p className="w-full text-4xl">
+                        千问占卜中...
                     </p>
                 )}
             </div>
@@ -230,20 +314,6 @@ export const TarotSpread: React.FC = () => {
         return (
             <div className="flex flex-col items-center w-full">
                 <div className="input-container w-[768px] pt-8">
-                    {/* <p>
-                        你的DashScope Secret
-                        (用于调用通义千问)
-                    </p>
-                    <input
-                        type="text"
-                        value={secret}
-                        onInput={(e) => {
-                            const target =
-                                e.target as HTMLInputElement;
-                            setSecret(target.value);
-                        }}
-                    /> */}
-
                     <p>你想要占卜的问题</p>
                     <input
                         type="text"

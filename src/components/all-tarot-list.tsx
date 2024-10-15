@@ -15,7 +15,7 @@ export const AllTarotList: React.FC = () => {
 
 function wordCloud(keywords: string[]) {
     return (
-        <div className="text-white font-thin flex-row flex-wrap w-full p-8">
+        <div className="text-white font-thin flex-row flex-wrap w-full p-5 my-3 rounded-xl border border-foreground/80 border-solid">
             {keywords.map((word) => {
                 const size =
                     Math.max(12, 36 * (1.2 / word.length)) *
@@ -39,30 +39,30 @@ export function renderTarot(name: string, tarot: Tarot) {
         <div className="flex flex-row max-w-[768px] items-start py-8">
             <div className="flex flex-col items-start justify-start w-72 shrink-0">
                 <img
-                    className="block w-72 object-contain pr-6"
+                    className="block w-72 object-contain pr-6 shadow-lg"
                     src={`/img/${name}.webp`}
                 />
 
-                <h3 className="text-3xl font-bold py-4">
+                <h3 className="text-4xl font-bold pt-4">
                     {tarot.name}
                 </h3>
-                <p className="font-thin text-foreground text-sm">
+                <p className="font-thin text-foreground opacity-70">
                     {name}
                 </p>
             </div>
             <div className="text-foreground flex flex-col">
                 <h4 className="text-2xl font-bold py-4 text-white">
-                    正位
+                    正位解读
                 </h4>
                 {wordCloud(tarot.upright.keywords)}
-                <Markdown className="description font-sans">
+                <Markdown className="description">
                     {tarot.upright.full}
                 </Markdown>
                 <h4 className="text-2xl font-bold py-4 text-white">
-                    逆位
+                    逆位解读
                 </h4>
                 {wordCloud(tarot.reversed.keywords)}
-                <Markdown className="description font-sans">
+                <Markdown className="description">
                     {tarot.reversed.full}
                 </Markdown>
             </div>
