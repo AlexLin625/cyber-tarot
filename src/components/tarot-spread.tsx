@@ -118,36 +118,40 @@ export const TarotSpread: React.FC = () => {
     dispatch(setUserQueryState("done"));
   };
 
+  const texts = [
+    "数据占星师正在解析你的命运矩阵...",
+    "正在连接未来预言数据库...",
+    "命运节点同步中，准备接收你的塔罗讯息...",
+    "Transformer塔罗大师正在微调你的命运轨迹...",
+    "正在通过量子网络计算未来变量...",
+    "命运女神的服务器正在响应，请稍候...",
+    "塔罗集群正在加载命运算法模块...",
+    "命运因子握手中...",
+    "正在用纳米纤维布擦水晶球...",
+    "正在和命运女神结算API费用...",
+  ];
+
+  let prevIndex = 0;
+  const randomText = () => {
+    let index;
+    do {
+      index = Math.floor(Math.random() * texts.length);
+    } while (index === prevIndex);
+    prevIndex = index;
+    return texts[index];
+  };
+  const [text, setText] = React.useState(randomText());
+
   const randomLoadingText = () => {
-    const texts = [
-      "数据占星师正在解析你的命运矩阵...",
-      "正在连接未来预言数据库，稍等片刻...",
-      "命运节点同步中，准备接收你的塔罗讯息...",
-      "Transformer塔罗大师正在调优你的命运轨迹...",
-      "正在通过量子网络计算未来变量...",
-      "命运女神的服务器正在响应，请稍候...",
-      "塔罗集群正在加载命运算法模块...",
-      "正在访问多维宇宙，抽取你的塔罗卡...",
-      "命运因子调整中，准备预言你的未来...",
-      "正在用纳米纤维布擦水晶球...",
-      "正在和命运女神结算API费用...",
-    ];
-
-    const [textIndex, setTextIndex] = React.useState(0);
-    const handleTextChange = () => {
-      let newIndex;
-      do {
-        newIndex = Math.floor(Math.random() * texts.length);
-      } while (newIndex === textIndex);
-      setTextIndex(newIndex);
-    };
-
     return (
       <p
-        className="w-full text-center text-2xl py-2"
-        onAnimationIteration={handleTextChange}
+        className="w-full text-center text-2xl py-2 loading-text"
+        onAnimationIteration={() => {
+          console.log("animation iteration");
+          setText(randomText());
+        }}
       >
-        {texts[textIndex]}
+        {text}
       </p>
     );
   };
