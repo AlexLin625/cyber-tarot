@@ -76,8 +76,6 @@ const renderFlippableCard: React.FC<{
     );
 };
 
-let selected: TarotState[] = [];
-
 export const TarotSpread: React.FC = () => {
     const spreadState = useSelector(
         (state: RootState) => state.spread
@@ -99,7 +97,7 @@ export const TarotSpread: React.FC = () => {
 
         dispatch(setUserQueryState("pending"));
         const data = await qwenSummary(
-            selected,
+            spreadState.selectedTarots,
             queryState.question
         );
         const summary = data.choices[0].message.content;
@@ -108,7 +106,7 @@ export const TarotSpread: React.FC = () => {
 
         for (let index = 0; index < 3; index++) {
             let res = await qwenDetailed(
-                selected,
+                spreadState.selectedTarots,
                 index,
                 summary,
                 queryState.question
@@ -147,11 +145,12 @@ export const TarotSpread: React.FC = () => {
                         <h3 className="text-3xl font-bold self-start py-4">
                             关于你抽到的塔罗牌
                         </h3>
-                        {selected.map((state) =>
-                            renderTarot(
-                                state.name,
-                                useTarotDB()[state.name]
-                            )
+                        {spreadState.selectedTarots.map(
+                            (state) =>
+                                renderTarot(
+                                    state.name,
+                                    useTarotDB()[state.name]
+                                )
                         )}
                     </>
                 ) : (
