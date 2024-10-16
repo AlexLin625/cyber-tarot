@@ -5,9 +5,7 @@ export const AllTarotList: React.FC = () => {
     return (
         <div className="flex flex-col items-center w-full h-full">
             {Object.entries(useTarotDB()).map(
-                ([name, tarot]) => {
-                    return renderTarot(name, tarot);
-                }
+                ([name, tarot]) => renderTarot(name, tarot)
             )}
         </div>
     );
@@ -36,7 +34,7 @@ function wordCloud(keywords: string[]) {
 
 export function renderTarot(name: string, tarot: Tarot) {
     return (
-        <div className="flex flex-row max-w-[768px] items-start py-8">
+        <div className="flex flex-row max-w-[768px] items-start py-8" key={name}>
             <div className="flex flex-col items-start justify-start w-72 shrink-0">
                 <img
                     className="block w-72 object-contain pr-6 shadow-lg"

@@ -4,13 +4,26 @@ import { TarotSpread } from "./components/tarot-spread";
 import { loadTarotDB } from "./tarot-db";
 import { About } from "./components/about";
 
+import { useDispatch, useSelector } from "react-redux";
+import { shuffleTarots } from "./store/spreadState";
+import { RootState } from "./store/store";
+
 export const App: React.FC = () => {
     const [activeTab, setActiveTab] = useState("spread");
     const [isReady, setIsReady] = useState(false);
 
+    const spreadState = useSelector(
+        (state: RootState) => state.spread
+    );
+    const dispatch = useDispatch();
     useEffect(() => {
         loadTarotDB().then(() => {
             setIsReady(true);
+
+            if (!spreadState.isInitialized) {
+                console.log("Shuffling tarots...");
+                dispatch(shuffleTarots());
+            }
         });
     });
 
@@ -70,19 +83,17 @@ export const App: React.FC = () => {
     };
 
     return (
-        <>
-            <div className="flex flex-col w-full">
-                <nav className="flex flex-row justify-center items-center bg-background p-4 w-full">
-                    <h1 className="text-2xl text-white pr-16">
-                        赛博塔罗
-                    </h1>
-                    {navs.map((nav) => {
-                        return renderNavButton(nav.name);
-                    })}
-                </nav>
-                {renderBody()}
-            </div>
-        </>
+        <div className="flex flex-col w-full">
+            <nav className="flex flex-row justify-center items-center bg-background p-4 w-full">
+                <h1 className="text-2xl text-white pr-16">
+                    赛博塔罗
+                </h1>
+                {navs.map((nav) => {
+                    return renderNavButton(nav.name);
+                })}
+            </nav>
+            {renderBody()}
+        </div>
     );
 };
 
