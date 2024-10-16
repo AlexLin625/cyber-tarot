@@ -1,8 +1,8 @@
 import { useTarotDB } from "./tarot-db";
 
 interface TarotState {
-    name: string;
-    orientation: "upright" | "reversed";
+  name: string;
+  orientation: "upright" | "reversed";
 }
 
 export const summarySystemPrompt = `
@@ -57,66 +57,63 @@ export const detailedSystemPrompt = `
 `;
 
 export const cardTemplate = (
-    state: TarotState,
-    index: number
+  state: TarotState,
+  index: number
 ) => {
-    return `
+  return `
     ### 第${index + 1}张牌
     
     这张牌是, ${
-        useTarotDB()[state.name].name
+      useTarotDB()[state.name].name
     }. 其主要代表关键词是${useTarotDB()[state.name][
-        state.orientation
-    ].keywords.join(",")}. \n\n你可以参考以下的解释文本:\n\n
+    state.orientation
+  ].keywords.join(",")}. \n\n你可以参考以下的解释文本:\n\n
     <|tarot|>\n${
-        useTarotDB()[state.name][state.orientation].full
+      useTarotDB()[state.name][state.orientation].full
     }\n<|tarot|>.\n\n
     `;
 };
 
 const queryQwen = async (messages: any) => {
-    const baseUrl =
-        "https://qwen-forward-2.linhongjie625.workers.dev";
+  const baseUrl = "https://tarot.a1exl.in/api/qwen-forward";
 
-    const headers = {
-        "Content-Type": "application/json",
-    };
+  const headers = {
+    "Content-Type": "application/json",
+  };
 
-    const body = {
-        messages: messages,
-    };
-    const response = await fetch(baseUrl, {
-        method: "POST",
-        headers,
-        body: JSON.stringify(body),
-    });
-    const data = await response.json();
-    return data;
+  const body = {
+    messages: messages,
+  };
+  const response = await fetch(baseUrl, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+  });
+  const data = await response.json();
+  return data;
 };
 
 const generateCardSummary = (
-    tarots: TarotState[],
-    question: string
+  tarots: TarotState[],
+  question: string
 ) => {
-    let userMessage =
-        tarots
-            .map(
-                (tarot, index) =>
-                    `
+  let userMessage =
+    tarots
+      .map(
+        (tarot, index) =>
+          `
          - 第 ${index + 1} 张牌是 ${
-                        tarot.name
-                    }，它的朝向是 ${
-                        tarot.orientation
-                    }。这张牌含义的关键词包括 ${useTarotDB()[
-                        tarot.name
-                    ][tarot.orientation].keywords.join(
-                        ","
-                    )}。
+            tarot.name
+          }，它的朝向是 ${
+            tarot.orientation
+          }。这张牌含义的关键词包括 ${useTarotDB()[
+            tarot.name
+          ][tarot.orientation].keywords.join(",")}。
             `
-            )
-            .join("\n") + "\n";
+      )
+      .join("\n") + "\n";
 
-    return `
+  return `
     ## 抽卡结果
     ${userMessage}
 
@@ -126,52 +123,52 @@ const generateCardSummary = (
 };
 
 export const qwenSummary = async (
-    tarots: TarotState[],
-    question: string
+  tarots: TarotState[],
+  question: string
 ) => {
-    const messages = [
-        {
-            role: "system",
-            content: summarySystemPrompt,
-        },
-        {
-            role: "user",
-            content: `
+  const messages = [
+    {
+      role: "system",
+      content: summarySystemPrompt,
+    },
+    {
+      role: "user",
+      content: `
             ${generateCardSummary(tarots, question)}
             
             ## 输出要求
             请根据用户的问题，选择一种范式进行解读，并给出一个总体的解释。
             `,
-        },
-    ];
-    const data = await queryQwen(messages);
-    return data;
+    },
+  ];
+  const data = await queryQwen(messages);
+  return data;
 };
 
 export const qwenDetailed = async (
-    tarots: TarotState[],
-    index: number,
-    summary: string,
-    question: string
+  tarots: TarotState[],
+  index: number,
+  summary: string,
+  question: string
 ) => {
-    const currentName = tarots[index].name;
-    const messages = [
-        {
-            role: "system",
-            content: detailedSystemPrompt,
-        },
-        {
-            role: "user",
-            content: `
+  const currentName = tarots[index].name;
+  const messages = [
+    {
+      role: "system",
+      content: detailedSystemPrompt,
+    },
+    {
+      role: "user",
+      content: `
             ${generateCardSummary(tarots, question)}
 
             ## 卡片${
-                useTarotDB()[currentName].name
+              useTarotDB()[currentName].name
             }的详细解读
             ${
-                useTarotDB()[currentName][
-                    tarots[index].orientation
-                ].full
+              useTarotDB()[currentName][
+                tarots[index].orientation
+              ].full
             }
 
             ## 总体解读
@@ -179,16 +176,16 @@ export const qwenDetailed = async (
             
             ## 任务
             你需要根据${
-                useTarotDB()[currentName].name
+              useTarotDB()[currentName].name
             }卡的参考解读，结合用户的问题和上面的情况总结，给出与用户情况相结合的详细解读。你的回答应当以
             \`\`\`
             ${useTarotDB()[currentName].name}卡的_位代表...
             \`\`\`
             的简单介绍开头
             `,
-        },
-    ];
+    },
+  ];
 
-    const data = await queryQwen(messages);
-    return data;
+  const data = await queryQwen(messages);
+  return data;
 };
