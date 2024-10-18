@@ -207,6 +207,7 @@ export const TarotSpread: React.FC = () => {
     };
 
     const switchToTarotSpread = () => {
+        if (queryState.question === "") return;
         dispatch(setUserQueryState("tarot-spread-page"));
     };
 
