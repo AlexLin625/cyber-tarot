@@ -19,12 +19,12 @@ body {
 }
 
 @keyframes fadeIn {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }
 
 .description > h1,
@@ -60,6 +60,10 @@ code {
 
 .nav-button.active {
     @apply text-foreground;
+}
+
+.recommend-bubble {
+    @apply bg-white/20 text-foreground text-sm px-2 py-1 rounded-full my-2;
 }
 
 input {

@@ -217,10 +217,38 @@ export const TarotSpread: React.FC = () => {
         dispatch(setUserQueryState("tarot-spread-page"));
     };
 
+    const recommendedQuestions = [
+        "我目前的职业道路是否适合我?",
+        "我最近的恋爱运怎么样?",
+        "目前的选择会如何影响我的未来?",
+    ];
+
+    const renderRecommendedQuestions = () => {
+        return (
+            <div className="flex flex-row flex-wrap max-w-xl py-3">
+                {recommendedQuestions.map(
+                    (question, index) => (
+                        <button
+                            key={index}
+                            className="recommend-bubble mr-3"
+                            onClick={() => {
+                                dispatch(
+                                    setQuestion(question)
+                                );
+                            }}
+                        >
+                            {question}
+                        </button>
+                    )
+                )}
+            </div>
+        );
+    };
+
     const renderQuestionInput = () => {
         return (
             <>
-                <div className="input-container max-w-[1024px] pt-8 pb-24">
+                <div className="input-container pt-8 pb-24">
                     <p className="text-4xl font-bold px-0 w-full">
                         旅者
                     </p>
@@ -251,6 +279,7 @@ export const TarotSpread: React.FC = () => {
                             大师我悟了!
                         </button>
                     </div>
+                    {renderRecommendedQuestions()}
                 </div>
             </>
         );
