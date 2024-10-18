@@ -85,7 +85,7 @@ export const TarotSpread: React.FC = () => {
 
     const renderCards = () => {
         return (
-            <div className="flex flex-row items-center justify-center py-8 w-[100vw] bg-black/10">
+            <div className="flex flex-row items-center justify-center py-8 w-[100vw] bg-black/20">
                 {spreadState.selectedTarots.map(
                     (state, index) => (
                         <FlippableCard
@@ -172,6 +172,12 @@ export const TarotSpread: React.FC = () => {
     const renderResult = () => {
         return (
             <div className="flex flex-col items-center justify-center text-foreground py-8 w-[768px]">
+                <p className="text-2xl font-thin w-full pt-8 text-foreground text-right pb-8">
+                    <span className="font-bold pr-4">
+                        问题
+                    </span>
+                    {queryState.question}
+                </p>
                 {queryState.answer ? (
                     <>
                         <h3 className="text-3xl font-bold self-start py-4">
