@@ -1,6 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-type UserQueryState = "idle" | "ready" | "pending" | "done";
+type UserQueryState =
+    | "init-page"
+    | "tarot-spread-page"
+    | "anwser-generation"
+    | "done";
 
 interface QueryState {
     userQueryState: UserQueryState;
@@ -9,7 +13,7 @@ interface QueryState {
 }
 
 const initialState: QueryState = {
-    userQueryState: "idle",
+    userQueryState: "init-page",
     answer: "",
     question: "",
 };

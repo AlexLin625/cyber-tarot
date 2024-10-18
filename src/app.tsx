@@ -83,7 +83,7 @@ export const App: React.FC = () => {
     };
 
     return (
-        <div className="flex flex-col w-full">
+        <div className="flex flex-col w-full h-[100vh]">
             <nav className="flex flex-row justify-center items-center bg-black/35 backdrop-blur-md shadow-md p-4 w-full sticky top-0 z-50">
                 <h1 className="text-2xl text-white pr-16">
                     赛博塔罗

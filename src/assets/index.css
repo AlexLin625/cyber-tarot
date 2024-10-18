@@ -18,13 +18,32 @@ body {
     @apply text-foreground py-3;
 }
 
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 .description > h1,
 .description > h2,
 .description > h3,
 .description > h4,
 .description > h5,
 .description > h6 {
-    @apply text-foreground text-2xl font-bold py-3;
+    @apply text-foreground text-2xl font-bold py-3 duration-300;
+}
+
+.description.fade-in-container > h1,
+.description.fade-in-container > h2,
+.description.fade-in-container > h3,
+.description.fade-in-container > h4,
+.description.fade-in-container > h5,
+.description.fade-in-container > h6,
+.description.fade-in-container > p {
+    animation: fadeIn 0.3s ease-in-out;
 }
 
 code {
@@ -48,14 +67,18 @@ input {
     -moz-appearance: none;
     appearance: none;
     border-radius: 0;
+    border: none;
+    outline: none;
 }
 
 .input-container > input {
-    @apply bg-white/10 border-none text-foreground/90 p-2 rounded-md w-full my-2 border-blue-700;
+    @apply bg-white/10 border border-transparent border-solid text-foreground/90 p-2 rounded-md w-full my-2 flex-grow duration-300 box-border;
 }
 
 .input-container > input:focus {
-    @apply border-yellow-300 bg-white/20;
+    @apply bg-white/20 border-white/40;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    outline: none;
 }
 
 .input-container > p {
