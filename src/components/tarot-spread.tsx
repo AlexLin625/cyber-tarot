@@ -186,6 +186,9 @@ export const TarotSpread: React.FC = () => {
                         <Markdown className="description fade-in-container">
                             {queryState.answer}
                         </Markdown>
+                        <p className="font-thin text-sm italic w-full text-center py-4">
+                            内容由大模型生成, 仅供娱乐
+                        </p>
                     </>
                 ) : (
                     ""
